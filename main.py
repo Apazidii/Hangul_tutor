@@ -29,6 +29,11 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.lineEdit.textEdited.connect(self.checkAnswer)
         self.label.setText("Нажмите Enter для подсказки")
         self.textBrowser.zoomIn(50)
+        self.setStyleSheet("background-color: #1f1b27;")
+        self.textBrowser.setStyleSheet("background-color: #897ea5;")
+        self.label.setStyleSheet("background-color: #f8cedb;")
+        self.lineEdit.setStyleSheet("background-color: #f8cedb;")
+
         # self.textBrowser.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.textBrowser.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.textBrowser.setText(self.word.ucode)
