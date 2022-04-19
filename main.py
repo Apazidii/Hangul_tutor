@@ -101,12 +101,7 @@ arr11 = [
 
 
 
-
-
-base = initBase()
-
 class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
-    word = random.choice(base)
     def __init__(self):
         super().__init__()
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
@@ -115,6 +110,16 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.textBrowser.zoomIn(50)
 
         self.initCheckBox()
+        self.word = random.choice(arr1+arr2+arr3+arr4+arr5+arr6+arr7+arr8+arr9+arr10+arr11)
+        self.pushButton.setText("Выделить все")
+        self.pushButton.clicked.connect(self.selectAll)
+        self.pushButton_2.setText("Снять выделение")
+        self.pushButton_2.clicked.connect(self.unselectAll)
+        self.pushButton_3.setText("Применить")
+        self.pushButton_3.clicked.connect(self.applyCheckBox)
+
+
+
         # self.setStyleSheet("background-color: #1f1b27;")
         # self.textBrowser.setStyleSheet("background-color: #ffffff;")
         # self.label_2.setStyleSheet("background-color: #f8cedb;")
@@ -138,7 +143,60 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.checkBox_9.setText(str_from_words(arr9))
         self.checkBox_10.setText(str_from_words(arr10))
         self.checkBox_11.setText(str_from_words(arr11))
-        self.buttonBox
+
+
+    def selectAll(self):
+        self.checkBox.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_2.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_3.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_4.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_5.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_6.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_7.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_8.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_9.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_10.setCheckState(QtCore.Qt.CheckState.Checked)
+        self.checkBox_11.setCheckState(QtCore.Qt.CheckState.Checked)
+
+    def unselectAll(self):
+        self.checkBox.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_2.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_3.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_4.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_5.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_6.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_7.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_8.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_9.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_10.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        self.checkBox_11.setCheckState(QtCore.Qt.CheckState.Unchecked)
+
+    def applyCheckBox(self):
+        k = []
+        if (self.checkBox.isChecked()):
+            k += arr1
+        if (self.checkBox_2.isChecked()):
+            k += arr2
+        if (self.checkBox_3.isChecked()):
+            k += arr3
+        if (self.checkBox_4.isChecked()):
+            k += arr4
+        if (self.checkBox_5.isChecked()):
+            k += arr5
+        if (self.checkBox_6.isChecked()):
+            k += arr6
+        if (self.checkBox_7.isChecked()):
+            k += arr7
+        if (self.checkBox_8.isChecked()):
+            k += arr8
+        if (self.checkBox_9.isChecked()):
+            k += arr9
+        if (self.checkBox_10.isChecked()):
+            k += arr10
+        if (self.checkBox_11.isChecked()):
+            k += arr11
+        self.base = k
+        self.next_word()
 
 
     def keyPressEvent(self, event):
@@ -146,7 +204,9 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
             self.label_2.setText(self.word.trans)
 
     def next_word(self):
-        self.word = random.choice(base)
+        if self.base == []:
+            return
+        self.word = random.choice(self.base)
         self.label_2.setText("Нажмите Enter для подсказки")
         self.textBrowser.setText(self.word.ucode)
         self.lineEdit.clear()
