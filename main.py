@@ -1,16 +1,13 @@
 import sys  # sys нужен для передачи argv в QApplication
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
+from PyQt5 import uic
 from PyQt5 import QtCore
 from PyQt5 import Qt
 import gui  # Это наш конвертированный файл дизайна
 import random
+from word_groups import *
 
-
-class Word:
-    def __init__(self, ucode, trans):
-        self.ucode = ucode
-        self.trans = trans
 
 def initBase():
     base = []
@@ -25,89 +22,18 @@ def str_from_words(arr: list[Word]):
         s += i.ucode
     return s
 
-arr1 = [
-    Word(u'\u314F', 'а:'),
-    Word(u'\u3151', 'йа'),
-    Word(u'\u3153', 'о:'),
-    Word(u'\u3155', 'йо')
-]
-
-arr2 = [
-    Word(u'\u3157', 'уо:'),
-    Word(u'\u315B', 'йуо'),
-    Word(u'\u315C', 'у:'),
-    Word(u'\u3160', 'йу')
-]
-
-arr3 = [
-    Word(u'\u3161', 'ы:'),
-    Word(u'\u3163', 'и:')
-]
-
-arr4 = [
-    Word(u'\u3150', 'э:'),
-    Word(u'\u3152', 'йэ:'),
-    Word(u'\u3154', 'эы:'),
-    Word(u'\u3156', 'йэы:')
-]
-
-arr5 = [
-    Word(u'\u3158', 'ва:'),
-    Word(u'\u3159', 'вэ:'),
-    Word(u'\u315A', 'вюэ:')
-]
-
-arr6 = [
-    Word(u'\u315D', 'во:'),
-    Word(u'\u315E', 'выэ:'),
-    Word(u'\u316F', 'ви:'),
-    Word(u'\u3152', 'ыи:')
-]
-
-arr7 = [
-    Word(u'\u3131', 'кы:'),
-    Word(u'\u3134', 'ны:'),
-    Word(u'\u3137', 'ты:'),
-    Word(u'\u3139', 'ры,л,ль:')
-]
-
-arr8 = [
-    Word(u'\u3141', 'мы:'),
-    Word(u'\u3142', 'пы:'),
-    Word(u'\u3145', 'сы:'),
-    Word(u'\u3147', 'ынн')
-]
-
-arr9 = [
-    Word(u'\u3148', 'тьы'),
-    Word(u'\u314A', 'цьы')
-]
-
-arr10 = [
-    Word(u'\u314B', 'кх'),
-    Word(u'\u314C', 'тх'),
-    Word(u'\u314D', 'пх'),
-    Word(u'\u314E', 'хы:')
-]
-
-arr11 = [
-    Word(u'\u3132', 'кы’'),
-    Word(u'\u3138', 'ты’'),
-    Word(u'\u3143', 'пы’'),
-    Word(u'\u3146', 'сс'),
-    Word(u'\u3149', 'цы')
-]
-
-
-
 
 class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)  # Это нужно для инициализации нашего дизайна
+        self.setupUi(self)
+
         self.lineEdit.textEdited.connect(self.checkAnswer)
         self.label_2.setText("Нажмите Enter для подсказки")
         self.textBrowser.zoomIn(50)
+
+        self.counter_answer = 0
+        self.counter_hint = 0
 
         self.initCheckBox()
         self.word = random.choice(arr1+arr2+arr3+arr4+arr5+arr6+arr7+arr8+arr9+arr10+arr11)
@@ -117,6 +43,10 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.unselectAll)
         self.pushButton_3.setText("Применить")
         self.pushButton_3.clicked.connect(self.applyCheckBox)
+
+        self.label_3.setText("Отвечено: " + str(self.counter_answer))
+        self.label_4.setText("Подсказок использовано: " + str(self.counter_hint))
+
 
 
 
@@ -132,7 +62,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
 
 
     def initCheckBox(self):
-        self.checkBox.setText(str_from_words(arr1))
+        self.checkBox_1.setText(str_from_words(arr1))
         self.checkBox_2.setText(str_from_words(arr2))
         self.checkBox_3.setText(str_from_words(arr3))
         self.checkBox_4.setText(str_from_words(arr4))
@@ -143,6 +73,10 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.checkBox_9.setText(str_from_words(arr9))
         self.checkBox_10.setText(str_from_words(arr10))
         self.checkBox_11.setText(str_from_words(arr11))
+
+        for i in range(2, 12):
+            eval(f'self.checkBox_{i}.setText(str_from_words(arr{i}))')
+        self.checkBox.setStyleSheet("background-color: #ced4d3;")
 
 
     def selectAll(self):
@@ -196,12 +130,18 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         if (self.checkBox_11.isChecked()):
             k += arr11
         self.base = k
-        self.next_word()
+        self.word = random.choice(self.base)
+        self.label_2.setText("Нажмите Enter для подсказки")
+        self.textBrowser.setText(self.word.ucode)
+        self.lineEdit.clear()
+        self.counter_answer += 1
 
 
     def keyPressEvent(self, event):
         if event.key() == 16777220:
             self.label_2.setText(self.word.trans)
+            self.counter_hint += 1
+            self.label_3.setText("Отвечено: " + str(self.counter_hint))
 
     def next_word(self):
         if self.base == []:
@@ -210,6 +150,8 @@ class ExampleApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.label_2.setText("Нажмите Enter для подсказки")
         self.textBrowser.setText(self.word.ucode)
         self.lineEdit.clear()
+        self.counter_answer += 1
+        self.label_3.setText("Отвечено: " + str(self.counter_answer))
 
     def checkAnswer(self):
         if self.lineEdit.text() == self.word.trans:
