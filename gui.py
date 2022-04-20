@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file './gui.ui'
+# Form implementation generated from reading ui file 'gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -34,6 +34,12 @@ class Ui_MainWindow(object):
         self.lineEdit = QtWidgets.QLineEdit(self.tab)
         self.lineEdit.setObjectName("lineEdit")
         self.verticalLayout_2.addWidget(self.lineEdit)
+        self.label_3 = QtWidgets.QLabel(self.tab)
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout_2.addWidget(self.label_3)
+        self.label_4 = QtWidgets.QLabel(self.tab)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout_2.addWidget(self.label_4)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -71,7 +77,7 @@ class Ui_MainWindow(object):
         self.checkBox_11.setGeometry(QtCore.QRect(9, 239, 70, 17))
         self.checkBox_11.setObjectName("checkBox_11")
         self.widget = QtWidgets.QWidget(self.tab_2)
-        self.widget.setGeometry(QtCore.QRect(9, 262, 239, 25))
+        self.widget.setGeometry(QtCore.QRect(9, 262, 304, 25))
         self.widget.setObjectName("widget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -97,13 +103,15 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_2.setText(_translate("MainWindow", "TextLabel"))
+        self.label_3.setText(_translate("MainWindow", "TextLabel"))
+        self.label_4.setText(_translate("MainWindow", "TextLabel"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
         self.checkBox.setText(_translate("MainWindow", "CheckBox"))
         self.checkBox_2.setText(_translate("MainWindow", "CheckBox"))
@@ -116,7 +124,7 @@ class Ui_MainWindow(object):
         self.checkBox_9.setText(_translate("MainWindow", "CheckBox"))
         self.checkBox_10.setText(_translate("MainWindow", "CheckBox"))
         self.checkBox_11.setText(_translate("MainWindow", "CheckBox"))
-        self.pushButton.setText(_translate("MainWindow", "PushButton"))
-        self.pushButton_2.setText(_translate("MainWindow", "PushButton"))
-        self.pushButton_3.setText(_translate("MainWindow", "PushButton"))
+        self.pushButton.setText(_translate("MainWindow", "Выделить все"))
+        self.pushButton_2.setText(_translate("MainWindow", "Снять выделение"))
+        self.pushButton_3.setText(_translate("MainWindow", "Применить"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
